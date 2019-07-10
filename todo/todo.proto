@@ -5,3 +5,13 @@ message Task {
     string text = 1;
     bool done = 2;
 }
+
+// list of tasks, responds to list command
+message TaskList {
+    repeated Task tasks = 1;
+}
+
+
+// service Tasks {
+//     rpc List() returns() {}
+// }

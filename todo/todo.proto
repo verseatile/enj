@@ -6,12 +6,18 @@ message Task {
     bool done = 2;
 }
 
+message Text {
+    string text = 1;
+}
 // list of tasks, responds to list command
 message TaskList {
     repeated Task tasks = 1;
 }
 
+message Void {}
 
-// service Tasks {
-//     rpc List() returns() {}
-// }
+
+service Tasks {
+    rpc List(Void) returns(TaskList) {}
+    rpc Add(Text) returns (Task) {}
+}

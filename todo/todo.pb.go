@@ -4,8 +4,12 @@
 package todo
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -67,6 +71,45 @@ func (m *Task) GetDone() bool {
 	return false
 }
 
+type Text struct {
+	Text                 string   `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Text) Reset()         { *m = Text{} }
+func (m *Text) String() string { return proto.CompactTextString(m) }
+func (*Text) ProtoMessage()    {}
+func (*Text) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0e4b95d0c4e09639, []int{1}
+}
+
+func (m *Text) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Text.Unmarshal(m, b)
+}
+func (m *Text) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Text.Marshal(b, m, deterministic)
+}
+func (m *Text) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Text.Merge(m, src)
+}
+func (m *Text) XXX_Size() int {
+	return xxx_messageInfo_Text.Size(m)
+}
+func (m *Text) XXX_DiscardUnknown() {
+	xxx_messageInfo_Text.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Text proto.InternalMessageInfo
+
+func (m *Text) GetText() string {
+	if m != nil {
+		return m.Text
+	}
+	return ""
+}
+
 // list of tasks, responds to list command
 type TaskList struct {
 	Tasks                []*Task  `protobuf:"bytes,1,rep,name=tasks,proto3" json:"tasks,omitempty"`
@@ -79,7 +122,7 @@ func (m *TaskList) Reset()         { *m = TaskList{} }
 func (m *TaskList) String() string { return proto.CompactTextString(m) }
 func (*TaskList) ProtoMessage()    {}
 func (*TaskList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0e4b95d0c4e09639, []int{1}
+	return fileDescriptor_0e4b95d0c4e09639, []int{2}
 }
 
 func (m *TaskList) XXX_Unmarshal(b []byte) error {
@@ -107,21 +150,174 @@ func (m *TaskList) GetTasks() []*Task {
 	return nil
 }
 
+type Void struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Void) Reset()         { *m = Void{} }
+func (m *Void) String() string { return proto.CompactTextString(m) }
+func (*Void) ProtoMessage()    {}
+func (*Void) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0e4b95d0c4e09639, []int{3}
+}
+
+func (m *Void) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Void.Unmarshal(m, b)
+}
+func (m *Void) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Void.Marshal(b, m, deterministic)
+}
+func (m *Void) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Void.Merge(m, src)
+}
+func (m *Void) XXX_Size() int {
+	return xxx_messageInfo_Void.Size(m)
+}
+func (m *Void) XXX_DiscardUnknown() {
+	xxx_messageInfo_Void.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Void proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*Task)(nil), "todo.Task")
+	proto.RegisterType((*Text)(nil), "todo.Text")
 	proto.RegisterType((*TaskList)(nil), "todo.TaskList")
+	proto.RegisterType((*Void)(nil), "todo.Void")
 }
 
 func init() { proto.RegisterFile("todo.proto", fileDescriptor_0e4b95d0c4e09639) }
 
 var fileDescriptor_0e4b95d0c4e09639 = []byte{
-	// 119 bytes of a gzipped FileDescriptorProto
+	// 178 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2a, 0xc9, 0x4f, 0xc9,
 	0xd7, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x01, 0xb1, 0x95, 0xf4, 0xb8, 0x58, 0x42, 0x12,
 	0x8b, 0xb3, 0x85, 0x84, 0xb8, 0x58, 0x4a, 0x52, 0x2b, 0x4a, 0x24, 0x18, 0x15, 0x18, 0x35, 0x38,
 	0x83, 0xc0, 0x6c, 0x90, 0x58, 0x4a, 0x7e, 0x5e, 0xaa, 0x04, 0x93, 0x02, 0xa3, 0x06, 0x47, 0x10,
-	0x98, 0xad, 0xa4, 0xc3, 0xc5, 0x01, 0x52, 0xef, 0x93, 0x59, 0x5c, 0x22, 0xa4, 0xc0, 0xc5, 0x5a,
-	0x92, 0x58, 0x9c, 0x5d, 0x2c, 0xc1, 0xa8, 0xc0, 0xac, 0xc1, 0x6d, 0xc4, 0xa5, 0x07, 0x36, 0x1d,
-	0x24, 0x1d, 0x04, 0x91, 0x48, 0x62, 0x03, 0x5b, 0x65, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0x6d,
-	0x8a, 0x92, 0x0f, 0x78, 0x00, 0x00, 0x00,
+	0x98, 0xad, 0x24, 0xc5, 0xc5, 0x12, 0x02, 0x95, 0x43, 0x57, 0xaf, 0xa4, 0xc3, 0xc5, 0x01, 0x32,
+	0xcb, 0x27, 0xb3, 0xb8, 0x44, 0x48, 0x81, 0x8b, 0xb5, 0x24, 0xb1, 0x38, 0xbb, 0x58, 0x82, 0x51,
+	0x81, 0x59, 0x83, 0xdb, 0x88, 0x4b, 0x0f, 0x6c, 0x33, 0x48, 0x3a, 0x08, 0x22, 0xa1, 0xc4, 0xc6,
+	0xc5, 0x12, 0x96, 0x9f, 0x99, 0x62, 0xe4, 0xc7, 0xc5, 0x0a, 0x12, 0x2e, 0x16, 0x52, 0xe1, 0x62,
+	0x01, 0x6b, 0x85, 0xaa, 0x05, 0x49, 0x4a, 0xf1, 0x21, 0xf4, 0x81, 0xe4, 0x94, 0x18, 0x84, 0xe4,
+	0xb9, 0x98, 0x1d, 0x53, 0x52, 0x60, 0x8a, 0x40, 0x6e, 0x91, 0x42, 0x32, 0x5c, 0x89, 0x21, 0x89,
+	0x0d, 0xec, 0x3d, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x54, 0x1b, 0x23, 0x36, 0xec, 0x00,
+	0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// TasksClient is the client API for Tasks service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type TasksClient interface {
+	List(ctx context.Context, in *Void, opts ...grpc.CallOption) (*TaskList, error)
+	Add(ctx context.Context, in *Text, opts ...grpc.CallOption) (*Task, error)
+}
+
+type tasksClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewTasksClient(cc *grpc.ClientConn) TasksClient {
+	return &tasksClient{cc}
+}
+
+func (c *tasksClient) List(ctx context.Context, in *Void, opts ...grpc.CallOption) (*TaskList, error) {
+	out := new(TaskList)
+	err := c.cc.Invoke(ctx, "/todo.Tasks/List", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tasksClient) Add(ctx context.Context, in *Text, opts ...grpc.CallOption) (*Task, error) {
+	out := new(Task)
+	err := c.cc.Invoke(ctx, "/todo.Tasks/Add", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TasksServer is the server API for Tasks service.
+type TasksServer interface {
+	List(context.Context, *Void) (*TaskList, error)
+	Add(context.Context, *Text) (*Task, error)
+}
+
+// UnimplementedTasksServer can be embedded to have forward compatible implementations.
+type UnimplementedTasksServer struct {
+}
+
+func (*UnimplementedTasksServer) List(ctx context.Context, req *Void) (*TaskList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+func (*UnimplementedTasksServer) Add(ctx context.Context, req *Text) (*Task, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+}
+
+func RegisterTasksServer(s *grpc.Server, srv TasksServer) {
+	s.RegisterService(&_Tasks_serviceDesc, srv)
+}
+
+func _Tasks_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Void)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TasksServer).List(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/todo.Tasks/List",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TasksServer).List(ctx, req.(*Void))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Tasks_Add_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Text)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TasksServer).Add(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/todo.Tasks/Add",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TasksServer).Add(ctx, req.(*Text))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Tasks_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "todo.Tasks",
+	HandlerType: (*TasksServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "List",
+			Handler:    _Tasks_List_Handler,
+		},
+		{
+			MethodName: "Add",
+			Handler:    _Tasks_Add_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "todo.proto",
 }

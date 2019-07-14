@@ -1,6 +1,3 @@
-# enj
-grpc + protocol buffers
-
 # Protocol Buffers
 - message format like JSON, YAML, XML, etc.
 - protocol buffers are defined by message types, and value types (just like key, value in json)
